@@ -5,10 +5,10 @@ import { z } from 'zod'
 
 export async function updateSettingsController (request: FastifyRequest, reply: FastifyReply): Promise<FastifyReply> {
   const updateSettingsBodySchema = z.object({
-    accessKey: z.string().optional(),
-    apiURL: z.string().optional(),
-    secretKey: z.string().optional(),
-    streamURL: z.string().optional()
+    accessKey: z.string().min(10).optional(),
+    apiURL: z.string().min(10).optional(),
+    secretKey: z.string().min(10).optional(),
+    streamURL: z.string().min(10).optional()
 
   })
 

@@ -1,5 +1,6 @@
 
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
+import { SettingsAlredyExistsError } from '@/errors/settings-alredy-exists-error'
 import { InMemorySettingsRepository } from '@/repositories/mock/settings-repository'
 import { CryptographyAdapter } from '@/utils/cryptography/cryptography-adapter'
 import { hash } from 'bcryptjs'
@@ -58,5 +59,29 @@ describe('Save Settings Use Case', () => {
         user_id: 'non-existing-id'
       })
     }).rejects.toBeInstanceOf(ResourceNotFoundError)
+  })
+
+  it('should not be able to save settings if settings alredy exists', async () => {
+    const user = await usersRepository.create({
+      name,
+      email,
+      password_hash: await hash(password, 6)
+    })
+
+    await sut.execute({
+      accessKey,
+      apiURL,
+      secretKey,
+      streamURL,
+      user_id: user.id
+    })
+
+    await expect(async () => await sut.execute({
+      accessKey,
+      apiURL,
+      secretKey,
+      streamURL,
+      user_id: user.id
+    })).rejects.toBeInstanceOf(SettingsAlredyExistsError)
   })
 })
