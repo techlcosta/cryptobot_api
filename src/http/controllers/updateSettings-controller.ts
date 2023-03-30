@@ -27,7 +27,7 @@ export async function updateSettingsController (request: FastifyRequest, reply: 
       streamURL
     })
 
-    return await reply.status(201).send()
+    return await reply.status(200).send()
   } catch (error) {
     if (error instanceof ResourceNotFoundError) return await reply.status(401).send({ message: error.message })
 
