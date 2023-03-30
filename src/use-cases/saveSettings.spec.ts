@@ -1,7 +1,7 @@
 
-import { EncryptAdapter } from '@/adapters/encrypt'
 import { InvalidCredentialsError } from '@/errors/invalid-credentials-error'
 import { InMemorySettingsRepository } from '@/repositories/mock/settings-repository'
+import { CryptographyAdapter } from '@/utils/cryptography/cryptography-adapter'
 import { hash } from 'bcryptjs'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { InMemoryUsersRepository } from '../repositories/mock/users-repository'
@@ -18,15 +18,15 @@ const streamURL = 'streamApiAddressURL'
 
 let usersRepository: InMemoryUsersRepository
 let settingsRepository: InMemorySettingsRepository
-let encryptAdapter: EncryptAdapter
+let cryptographyAdapter: CryptographyAdapter
 let sut: SaveSettingsUseCase
 
 describe('Save Settings Use Case', () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
     settingsRepository = new InMemorySettingsRepository()
-    encryptAdapter = new EncryptAdapter()
-    sut = new SaveSettingsUseCase(usersRepository, settingsRepository, encryptAdapter)
+    cryptographyAdapter = new CryptographyAdapter()
+    sut = new SaveSettingsUseCase(usersRepository, settingsRepository, cryptographyAdapter)
   })
 
   it('should be able to save settings', async () => {

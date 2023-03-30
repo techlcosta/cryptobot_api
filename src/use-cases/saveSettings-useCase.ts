@@ -1,8 +1,8 @@
 
-import { type EncryptAdapterInterface } from '@/adapters/encrypt'
 import { InvalidCredentialsError } from '@/errors/invalid-credentials-error'
 import { type SettingsRepositoryInterface } from '@/interfaces/settings-repository'
 import { type UsersRepositoryInterface } from '@/interfaces/users-repository'
+import { type CryptographyAdapterInterface } from '@/utils/cryptography/cryptography-adapter-interface'
 import { type Settings } from '@prisma/client'
 
 interface SaveSettingsUseCaseRequest {
@@ -21,11 +21,11 @@ export class SaveSettingsUseCase {
   constructor (
     private readonly usersRepository: UsersRepositoryInterface,
     private readonly settingsRepository: SettingsRepositoryInterface,
-    private readonly encryptAdapter: EncryptAdapterInterface
+    private readonly cryptographyAdapter: CryptographyAdapterInterface
   ) {}
 
   async execute ({ apiURL, streamURL, accessKey, secretKey, user_id }: SaveSettingsUseCaseRequest): Promise<SaveSettingsUseCaseResponse> {
-    const secretKeyEncrypted = this.encryptAdapter.encrypt(secretKey)
+    const secretKeyEncrypted = this.cryptographyAdapter.encrypt(secretKey)
 
     const user = await this.usersRepository.findById(user_id)
 
