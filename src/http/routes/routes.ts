@@ -15,4 +15,5 @@ export async function appRoutes (app: FastifyInstance): Promise<void> {
   /** Authenticated */
   app.get('/me', { onRequest: [verifyJWT] }, getUserProfileController)
   app.post('/settings/save', { onRequest: [verifyJWT] }, saveSettingsController)
+  app.patch('/settings/edit', { onRequest: [verifyJWT] }, saveSettingsController)
 }
