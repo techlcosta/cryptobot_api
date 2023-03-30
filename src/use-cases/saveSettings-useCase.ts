@@ -1,5 +1,5 @@
 
-import { InvalidCredentialsError } from '@/errors/invalid-credentials-error'
+import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { type SettingsRepositoryInterface } from '@/interfaces/settings-repository'
 import { type UsersRepositoryInterface } from '@/interfaces/users-repository'
 import { type CryptographyAdapterInterface } from '@/utils/cryptography/cryptography-adapter-interface'
@@ -29,7 +29,7 @@ export class SaveSettingsUseCase {
 
     const user = await this.usersRepository.findById(user_id)
 
-    if (user === null) throw new InvalidCredentialsError()
+    if (user === null) throw new ResourceNotFoundError()
 
     const settings = await this.settingsRepository.create({
       apiURL,

@@ -9,6 +9,20 @@ export class PrismaSettingsRepository implements SettingsRepositoryInterface {
     return settings
   }
 
+  async update ({ user_id, accessKey, apiURL, secretKey, streamURL }: Prisma.SettingsUncheckedUpdateInput): Promise<Settings> {
+    const settings = await prisma.settings.update({
+      where: { user_id: user_id as string },
+      data: {
+        accessKey,
+        secretKey,
+        apiURL,
+        streamURL
+      }
+    })
+
+    return settings
+  }
+
   async findByUserId (userId: string): Promise<Settings | null> {
     const settings = await prisma.settings.findUnique({
       where: {

@@ -1,4 +1,4 @@
-import { type SettingsRepositoryInterface } from '@/interfaces/settings-repository'
+import { type PrismaSettingsUpdateInput, type SettingsRepositoryInterface } from '@/interfaces/settings-repository'
 import { type Prisma, type Settings } from '@prisma/client'
 import { randomUUID } from 'node:crypto'
 
@@ -19,6 +19,17 @@ export class InMemorySettingsRepository implements SettingsRepositoryInterface {
     this.memoryDatabase.push(settings)
 
     return settings
+  }
+
+  async update ({ user_id, accessKey, secretKey, apiURL, streamURL }: PrismaSettingsUpdateInput): Promise<Settings> {
+    const settingsIndex = this.memoryDatabase.findIndex(item => item.user_id === user_id)
+
+    if (accessKey !== undefined) this.memoryDatabase[settingsIndex].accessKey = accessKey as string
+    if (secretKey !== undefined) this.memoryDatabase[settingsIndex].secretKey = secretKey as string
+    if (apiURL !== undefined) this.memoryDatabase[settingsIndex].apiURL = apiURL as string
+    if (streamURL !== undefined) this.memoryDatabase[settingsIndex].streamURL = streamURL as string
+
+    return this.memoryDatabase[settingsIndex]
   }
 
   async findByUserId (userId: string): Promise<Settings | null> {
