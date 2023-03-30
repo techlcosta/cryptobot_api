@@ -7,7 +7,9 @@ export async function getUserProfileController (request: FastifyRequest, reply: 
   try {
     const getUserProfileUseCase = makeGetUserProfileUseCase()
 
-    const { user } = await getUserProfileUseCase.execute({ userId: request.user.sub })
+    const userId = request.user.sub
+
+    const { user } = await getUserProfileUseCase.execute({ userId })
 
     return await reply.status(200).send({
       user: {
