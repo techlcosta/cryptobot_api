@@ -1,11 +1,11 @@
 import { env } from '@/env'
-import { createCipheriv, createDecipheriv } from 'crypto'
+import { createCipheriv, createDecipheriv, createHash } from 'crypto'
 import { type CryptographyAdapterInterface } from './cryptography-adapter-interface'
 
 export class CryptographyAdapter implements CryptographyAdapterInterface {
   private readonly algorithm = 'aes-256-cbc'
-  private readonly key = env.CRYPTOGRAPHY_SECRET_KEY
-  private readonly iv = env.CRYPTOGRAPHY_SECRET_IV
+  private readonly key = createHash('sha512').update(env.CRYPTOGRAPHY_SECRET_KEY).digest('hex').substring(0, 32)
+  private readonly iv = createHash('sha512').update(env.CRYPTOGRAPHY_SECRET_IV).digest('hex').substring(0, 16)
   encrypt (value: string): string {
     const cipher = createCipheriv(this.algorithm, this.key, this.iv)
     const encrypted = Buffer.from(cipher.update(value, 'utf8', 'hex') + cipher.final('hex')).toString('base64')

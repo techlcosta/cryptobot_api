@@ -16,7 +16,7 @@ let settingsRepository: InMemorySettingsRepository
 let cryptographyAdapter: CryptographyAdapter
 let sut: UpdateSettingsUseCase
 
-describe('Save Settings Use Case', () => {
+describe('Updatye Settings Use Case', () => {
   beforeEach(() => {
     settingsRepository = new InMemorySettingsRepository()
     cryptographyAdapter = new CryptographyAdapter()
@@ -24,13 +24,17 @@ describe('Save Settings Use Case', () => {
   })
 
   it('should be able to update settings', async () => {
+    const encrypted = cryptographyAdapter.encrypt(secretKey)
+
     const currentSettings = await settingsRepository.create({
       accessKey,
       apiURL,
-      secretKey,
+      secretKey: encrypted,
       streamURL,
       user_id
     })
+
+    console.log(currentSettings)
 
     const { settings } = await sut.execute({
       user_id: currentSettings.user_id,
@@ -39,6 +43,8 @@ describe('Save Settings Use Case', () => {
       apiURL: `new ${apiURL}`,
       streamURL: `new ${streamURL}`
     })
+
+    console.log(settings)
 
     expect(settings.id).toEqual(expect.any(String))
     expect(settings.accessKey).not.toEqual(accessKey)

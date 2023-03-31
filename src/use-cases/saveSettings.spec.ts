@@ -12,14 +12,14 @@ const name = 'Jhon Doe'
 const email = 'jhondoe@example.com'
 const password = '123456'
 
-const accessKey = 'apiAccessKey'
-const apiURL = 'apiAddressURL'
-const secretKey = 'apiSecretKey'
-const streamURL = 'streamApiAddressURL'
+const accessKey = 'api access key'
+const apiURL = 'api address URL'
+const secretKey = 'api secret key'
+const streamURL = 'stream api address URL'
 
 let usersRepository: InMemoryUsersRepository
-let settingsRepository: InMemorySettingsRepository
 let cryptographyAdapter: CryptographyAdapter
+let settingsRepository: InMemorySettingsRepository
 let sut: SaveSettingsUseCase
 
 describe('Save Settings Use Case', () => {
@@ -30,8 +30,8 @@ describe('Save Settings Use Case', () => {
     sut = new SaveSettingsUseCase(usersRepository, settingsRepository, cryptographyAdapter)
   })
 
-  it('should be able to save settings', async () => {
-    const user = await usersRepository.create({
+  it('should be able to save settings and encrypt secret key', async () => {
+    const { id } = await usersRepository.create({
       name,
       email,
       password_hash: await hash(password, 6)
@@ -42,8 +42,11 @@ describe('Save Settings Use Case', () => {
       apiURL,
       secretKey,
       streamURL,
-      user_id: user.id
+      user_id: id
     })
+
+    console.log('decrypted value: ', secretKey)
+    console.log('encrypted value: ', settings.secretKey)
 
     expect(settings.id).toEqual(expect.any(String))
     expect(settings.secretKey).not.toEqual(secretKey)
@@ -62,18 +65,18 @@ describe('Save Settings Use Case', () => {
   })
 
   it('should not be able to save settings if settings alredy exists', async () => {
-    const user = await usersRepository.create({
+    const { id } = await usersRepository.create({
       name,
       email,
       password_hash: await hash(password, 6)
     })
 
-    await sut.execute({
+    const { settings } = await sut.execute({
       accessKey,
       apiURL,
       secretKey,
       streamURL,
-      user_id: user.id
+      user_id: id
     })
 
     await expect(async () => await sut.execute({
@@ -81,7 +84,7 @@ describe('Save Settings Use Case', () => {
       apiURL,
       secretKey,
       streamURL,
-      user_id: user.id
+      user_id: settings.user_id
     })).rejects.toBeInstanceOf(SettingsAlredyExistsError)
   })
 })
