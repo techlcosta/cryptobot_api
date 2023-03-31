@@ -1,4 +1,5 @@
 import { type FastifyInstance } from 'fastify'
+import { getSettingsController } from '../controllers/getSettings-controller'
 import { getUserProfileController } from '../controllers/getUserProfile-controller'
 import { saveSettingsController } from '../controllers/saveSettings-controller'
 import { updateSettingsController } from '../controllers/updateSettings-controller'
@@ -15,6 +16,7 @@ export async function appRoutes (app: FastifyInstance): Promise<void> {
 
   /** Authenticated */
   app.get('/me', { onRequest: [verifyJWT] }, getUserProfileController)
+  app.get('/settings', { onRequest: [verifyJWT] }, getSettingsController)
   app.post('/settings/save', { onRequest: [verifyJWT] }, saveSettingsController)
   app.patch('/settings/edit', { onRequest: [verifyJWT] }, updateSettingsController)
 }

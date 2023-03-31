@@ -3,7 +3,7 @@ import { makeGetSettingsUseCase } from '@/use-cases/factories/make-getSettings-u
 
 import { type FastifyReply, type FastifyRequest } from 'fastify'
 
-export async function getUserProfileController (request: FastifyRequest, reply: FastifyReply): Promise<FastifyReply> {
+export async function getSettingsController (request: FastifyRequest, reply: FastifyReply): Promise<FastifyReply> {
   try {
     const getSettingsUseCase = makeGetSettingsUseCase()
 
