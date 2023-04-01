@@ -2,7 +2,7 @@ import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { InMemoryUsersRepository } from '@/repositories/mock/users-repository'
 import { hash } from 'bcryptjs'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { GetUserProfileUseCase } from './getUserProfile-useCase'
+import { GetUserProfileUseCase } from '../getUserProfile-useCase'
 
 const name = 'Jhon Doe'
 const email = 'jhondoe@example.com'

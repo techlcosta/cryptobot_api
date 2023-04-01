@@ -3,7 +3,7 @@ import { InMemorySettingsRepository } from '@/repositories/mock/settings-reposit
 import { CryptographyAdapter } from '@/utils/cryptography/cryptography-adapter'
 import { randomUUID } from 'crypto'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { GetSettingsUseCase } from './getSettings-useCase'
+import { GetSettingsUseCase } from '../getSettings-useCase'
 
 const user_id = randomUUID()
 const accessKey = 'api access key'

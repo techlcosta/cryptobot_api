@@ -1,8 +1,8 @@
 import { compare } from 'bcryptjs'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { UserAlredyExistsError } from '../errors/user-alredy-exists-error'
-import { InMemoryUsersRepository } from '../repositories/mock/users-repository'
-import { UserRegisterUseCase } from './userRegister-useCase'
+import { UserAlredyExistsError } from '../../errors/user-alredy-exists-error'
+import { InMemoryUsersRepository } from '../../repositories/mock/users-repository'
+import { UserRegisterUseCase } from '../userRegister-useCase'
 
 const name = 'Jhon Doe'
 const email = 'jhondoe@example.com'

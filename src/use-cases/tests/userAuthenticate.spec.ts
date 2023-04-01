@@ -1,8 +1,8 @@
 import { InvalidCredentialsError } from '@/errors/invalid-credentials-error'
 import { hash } from 'bcryptjs'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { InMemoryUsersRepository } from '../repositories/mock/users-repository'
-import { UserAuthenticateUseCase } from './userAuthenticate-useCase'
+import { InMemoryUsersRepository } from '../../repositories/mock/users-repository'
+import { UserAuthenticateUseCase } from '../userAuthenticate-useCase'
 
 const name = 'Jhon Doe'
 const email = 'jhondoe@example.com'

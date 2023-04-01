@@ -5,8 +5,8 @@ import { InMemorySettingsRepository } from '@/repositories/mock/settings-reposit
 import { CryptographyAdapter } from '@/utils/cryptography/cryptography-adapter'
 import { hash } from 'bcryptjs'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { InMemoryUsersRepository } from '../repositories/mock/users-repository'
-import { SaveSettingsUseCase } from './saveSettings-useCase'
+import { InMemoryUsersRepository } from '../../repositories/mock/users-repository'
+import { SaveSettingsUseCase } from '../saveSettings-useCase'
 
 const name = 'Jhon Doe'
 const email = 'jhondoe@example.com'
