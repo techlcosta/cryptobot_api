@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { publicRequest } from '../../utils/publicRequest'
-import { type ExchangeInfoInput, type ExchangeInfoInterface, type ExchangeInfoOut } from '../interfaces/exchangeInfo-interface'
+import { type ExchangeInfoInput, type ExchangeInfoInterface, type ExchangeInfoOut } from './exchangeInfo-interface'
 
 export const exchangeInfo: ExchangeInfoInterface = async function (data: ExchangeInfoInput): Promise<ExchangeInfoOut> {
   const exchangeInfoSchema = z.object({
