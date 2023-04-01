@@ -15,7 +15,7 @@ model User {
   name          String
   email         String    @unique()
   password_hash String
-  Symbol        Symbol[]
+  Symbol        Symbols[]
   settings      Settings?
   created_at    DateTime  @default(now())
 
@@ -35,7 +35,7 @@ model Settings {
   @@map("settings")
 }
 
-model Symbol {
+model Symbols {
   id              String   @id @default(uuid())
   symbol          String
   base            String
@@ -49,5 +49,6 @@ model Symbol {
   user            User     @relation(fields: [user_id], references: [id])
   created_at      DateTime @default(now())
 
+  @@unique([user_id, symbol])
   @@map("symbols")
 }
