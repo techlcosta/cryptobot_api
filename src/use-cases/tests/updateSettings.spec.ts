@@ -1,7 +1,7 @@
 
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
+import { CryptographyAdapter } from '@/helpers/cryptography/cryptography-adapter'
 import { InMemorySettingsRepository } from '@/repositories/mock/settings-repository'
-import { CryptographyAdapter } from '@/utils/cryptography/cryptography-adapter'
 import { randomUUID } from 'node:crypto'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { UpdateSettingsUseCase } from '../updateSettings-useCase'

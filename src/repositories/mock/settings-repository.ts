@@ -1,4 +1,4 @@
-import { type PrismaSettingsUpdateInput, type SettingsRepositoryInterface } from '@/interfaces/settings-repository'
+import { type PrismaSettingsUpdateInput, type SettingsRepositoryInterface } from '@/repositories/interfaces/settings-repository'
 import { type Prisma, type Settings } from '@prisma/client'
 import { randomUUID } from 'node:crypto'
 
@@ -34,14 +34,6 @@ export class InMemorySettingsRepository implements SettingsRepositoryInterface {
 
   async findByUserId (userId: string): Promise<Settings | null> {
     const settings = this.memoryDatabase.find(item => item.user_id === userId)
-
-    if (settings === undefined) return null
-
-    return settings
-  }
-
-  async findById (userId: string): Promise<Settings | null> {
-    const settings = this.memoryDatabase.find(item => item.id === userId)
 
     if (settings === undefined) return null
 

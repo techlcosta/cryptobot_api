@@ -1,6 +1,6 @@
 import { type Prisma, type User } from '@prisma/client'
 import { randomUUID } from 'node:crypto'
-import { type UsersRepositoryInterface, type UserWithSettings } from '../../interfaces/users-repository'
+import { type UserWithSettings, type UsersRepositoryInterface } from '../interfaces/users-repository'
 
 export class InMemoryUsersRepository implements UsersRepositoryInterface {
   private readonly memoryDatabase: User[] = []

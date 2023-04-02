@@ -1,13 +1,15 @@
 
-type ExchangeFilterType = 'EXCHANGE_MAX_NUM_ORDERS' | 'EXCHANGE_MAX_ALGO_ORDERS'
+export type ExchangeFilterType = 'EXCHANGE_MAX_NUM_ORDERS' | 'EXCHANGE_MAX_ALGO_ORDERS'
 
-type OrderTypes = 'LIMIT' | 'LIMIT_MAKER' | 'MARKET' | 'STOP_LOSS_LIMIT' | 'TAKE_PROFIT_LIMIT'
+export type OrderTypes = 'LIMIT' | 'LIMIT_MAKER' | 'MARKET' | 'STOP_LOSS_LIMIT' | 'TAKE_PROFIT_LIMIT'
 
-type Permissions = 'SPOT' | 'MARGIN' | 'LEVERAGED' | 'TRD_GRP_002' | 'TRD_GRP_003' | 'TRD_GRP_004' | 'TRD_GRP_005' | 'TRD_GRP_006' | 'TRD_GRP_007'
+export type Permissions = 'SPOT' | 'MARGIN' | 'LEVERAGED' | 'TRD_GRP_002' | 'TRD_GRP_003' | 'TRD_GRP_004' | 'TRD_GRP_005' | 'TRD_GRP_006' | 'TRD_GRP_007'
 
-type AllowedSelfTradePreventionModes = 'NONE' | 'EXPIRE_TAKER' | 'EXPIRE_MAKER' | 'EXPIRE_BOTH'
+export type AllowedSelfTradePreventionModes = 'NONE' | 'EXPIRE_TAKER' | 'EXPIRE_MAKER' | 'EXPIRE_BOTH'
 
-enum SymbolFilterEnum {
+export type SymbolFilterType = | 'PRICE_FILTER' | 'LOT_SIZE' | 'MIN_NOTIONAL' | 'ICEBERG_PARTS' | 'MARKET_LOT_SIZE' | 'TRAILING_DELTA' | 'PERCENT_PRICE_BY_SIDE' | 'MAX_NUM_ORDERS' | 'MAX_NUM_ALGO_ORDERS'
+
+export enum SymbolFilterEnum {
   PRICE_FILTER = 'PRICE_FILTER',
   LOT_SIZE = 'LOT_SIZE',
   MIN_NOTIONAL = 'MIN_NOTIONAL',
@@ -19,61 +21,61 @@ enum SymbolFilterEnum {
   MAX_NUM_ALGO_ORDERS = 'MAX_NUM_ALGO_ORDERS',
 }
 
-interface RateLimits {
+export interface RateLimits {
   rateLimitType: string
   interval: string
   intervalNum: number
   limit: number
 }
 
-interface ExchangeFilter {
+export interface ExchangeFilter {
   filterType: ExchangeFilterType
   limit: number
 }
 
-interface SymbolPriceFilter {
-  filterType: SymbolFilterEnum.PRICE_FILTER
+export interface SymbolPriceFilter {
+  filterType: SymbolFilterType
   minPrice: string
   maxPrice: string
   tickSize: string
 }
 
-interface SymbolLotSizeFilter {
-  filterType: SymbolFilterEnum.LOT_SIZE
+export interface SymbolLotSizeFilter {
+  filterType: SymbolFilterType
   minQty: string
   maxQty: string
   stepSize: string
 }
 
-interface SymbolMinNotionalFilter {
-  filterType: SymbolFilterEnum.MIN_NOTIONAL
+export interface SymbolMinNotionalFilter {
+  filterType: SymbolFilterType
   minNotional: string
   applyToMarket: boolean
   avgPriceMins: number
 }
 
-interface SymbolIcergPartsFilter {
-  filterType: SymbolFilterEnum.ICEBERG_PARTS
+export interface SymbolIcergPartsFilter {
+  filterType: SymbolFilterType
   limit: number
 }
 
-interface SymbolMarketLotSizeFilter {
-  filterType: SymbolFilterEnum.MARKET_LOT_SIZE
+export interface SymbolMarketLotSizeFilter {
+  filterType: SymbolFilterType
   minQty: string
   maxQty: string
   stepSize: string
 }
 
-interface SymbolTrailingDeltaFilter {
-  filterType: string
+export interface SymbolTrailingDeltaFilter {
+  filterType: SymbolFilterType
   minTrailingAboveDelta: number
   maxTrailingAboveDelta: number
   minTrailingBelowDelta: number
   maxTrailingBelowDelta: number
 }
 
-interface SymbolPercentPriceBySideFilter {
-  filterType: SymbolFilterEnum.PERCENT_PRICE_BY_SIDE
+export interface SymbolPercentPriceBySideFilter {
+  filterType: SymbolFilterType
   bidMultiplierUp: string
   bidMultiplierDown: string
   askMultiplierUp: string
@@ -81,13 +83,13 @@ interface SymbolPercentPriceBySideFilter {
   avgPriceMins: number
 }
 
-interface SymbolMaxNumOrdersFilter {
-  filterType: SymbolFilterEnum.MAX_NUM_ORDERS
+export interface SymbolMaxNumOrdersFilter {
+  filterType: SymbolFilterType
   maxNumOrders: number
 }
 
-interface SymbolNumMaxAlgoOrdersFilter {
-  filterType: SymbolFilterEnum.MAX_NUM_ALGO_ORDERS
+export interface SymbolNumMaxAlgoOrdersFilter {
+  filterType: SymbolFilterType
   maxNumAlgoOrders: number
 }
 
@@ -102,7 +104,7 @@ type SymbolFilter =
 | SymbolMaxNumOrdersFilter
 | SymbolNumMaxAlgoOrdersFilter
 
-interface Symbols {
+export interface Symbols {
   symbol: string
   status: string
   baseAsset: string

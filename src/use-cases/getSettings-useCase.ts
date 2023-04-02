@@ -1,6 +1,6 @@
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
-import { type SettingsRepositoryInterface } from '@/interfaces/settings-repository'
-import { type CryptographyAdapterInterface } from '@/utils/cryptography/cryptography-adapter-interface'
+import { type CryptographyAdapterInterface } from '@/helpers/cryptography/cryptography-adapter-interface'
+import { type SettingsRepositoryInterface } from '@/repositories/interfaces/settings-repository'
 import { type Settings } from '@prisma/client'
 
 interface GetSettingsUseCaseRequest {

@@ -1,4 +1,4 @@
-export class BianceRequestError extends Error {
+export class BinanceRequestError extends Error {
   constructor (public message: string) {
     super(message)
   }

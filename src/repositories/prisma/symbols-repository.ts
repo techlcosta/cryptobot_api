@@ -1,8 +1,8 @@
-import { type PrismaSymbolsUpdateWithIdInput, type SymbolsRepositoryInterface } from '@/interfaces/symbols-repository'
 import { prisma } from '@/lib/prisma'
+import { type PrismaSymbolsFindUniqueByUserIdAndSymbol, type PrismaSymbolsUpdateWithIdInput, type SymbolsRepositoryInterface } from '@/repositories/interfaces/symbols-repository'
 import { type Prisma, type Symbols } from '@prisma/client'
 
-export class SymbolsRepository implements SymbolsRepositoryInterface {
+export class PrismaSymbolsRepository implements SymbolsRepositoryInterface {
   async create (data: Prisma.SymbolsUncheckedCreateInput): Promise<Symbols> {
     const symbols = await prisma.symbols.create({ data })
 
@@ -22,8 +22,22 @@ export class SymbolsRepository implements SymbolsRepositoryInterface {
     return symbols
   }
 
-  async findById (id: string): Promise<Symbols | null> {
-    const symbols = await prisma.symbols.findUnique({ where: { id } })
+  async findByUserId (user_id: string): Promise<Symbols[]> {
+    const symbols = await prisma.symbols.findMany({
+      where: {
+        user_id
+      }
+    })
+
+    return symbols
+  }
+
+  async findByUserIdAndSymbol (data: PrismaSymbolsFindUniqueByUserIdAndSymbol): Promise<Symbols | null> {
+    const symbols = await prisma.symbols.findUnique({
+      where: {
+        user_id_symbol: data
+      }
+    })
 
     return symbols
   }

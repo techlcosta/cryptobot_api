@@ -1,8 +1,8 @@
 
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { SettingsAlredyExistsError } from '@/errors/settings-alredy-exists-error'
+import { CryptographyAdapter } from '@/helpers/cryptography/cryptography-adapter'
 import { InMemorySettingsRepository } from '@/repositories/mock/settings-repository'
-import { CryptographyAdapter } from '@/utils/cryptography/cryptography-adapter'
 import { hash } from 'bcryptjs'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { InMemoryUsersRepository } from '../../repositories/mock/users-repository'

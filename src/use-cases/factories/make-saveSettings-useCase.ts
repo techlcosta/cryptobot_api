@@ -1,7 +1,7 @@
 
+import { CryptographyAdapter } from '@/helpers/cryptography/cryptography-adapter'
 import { PrismaSettingsRepository } from '@/repositories/prisma/settings-repository'
 import { PrismaUsersRepository } from '@/repositories/prisma/users-repository'
-import { CryptographyAdapter } from '@/utils/cryptography/cryptography-adapter'
 import { SaveSettingsUseCase } from '../saveSettings-useCase'
 
 export function makeSaveSettingsUseCase (): SaveSettingsUseCase {

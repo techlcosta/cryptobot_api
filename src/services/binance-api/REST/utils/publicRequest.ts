@@ -1,4 +1,4 @@
-import { BianceRequestError } from '@/errors/binance-request-error'
+import { BinanceRequestError } from '@/errors/binance-request-error'
 import { z } from 'zod'
 
 interface BinanceErrors {
@@ -23,7 +23,7 @@ export async function publicRequest (data: publicRequestInput): Promise<any> {
   if (response.status !== 200) {
     const json: BinanceErrors = await response.json()
 
-    throw new BianceRequestError(`code: ${json.code}, message: ${json.msg}`)
+    throw new BinanceRequestError(`code: ${json.code}, message: ${json.msg}`)
   }
 
   return await response.json()
