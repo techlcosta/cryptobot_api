@@ -6,17 +6,17 @@ import { randomUUID } from 'node:crypto'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { UpdateSettingsUseCase } from '../updateSettings-useCase'
 
-const user_id = randomUUID()
-const accessKey = 'api access key'
-const apiURL = 'api address URL'
-const secretKey = 'api secret key'
-const streamURL = 'stream api address URL'
-
-let settingsRepository: InMemorySettingsRepository
-let cryptographyAdapter: CryptographyAdapter
-let sut: UpdateSettingsUseCase
-
 describe('Updatye Settings Use Case', () => {
+  const user_id = randomUUID()
+  const accessKey = 'api access key'
+  const apiURL = 'api address URL'
+  const secretKey = 'api secret key'
+  const streamURL = 'stream api address URL'
+
+  let settingsRepository: InMemorySettingsRepository
+  let cryptographyAdapter: CryptographyAdapter
+  let sut: UpdateSettingsUseCase
+
   beforeEach(() => {
     settingsRepository = new InMemorySettingsRepository()
     cryptographyAdapter = new CryptographyAdapter()

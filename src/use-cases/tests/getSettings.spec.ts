@@ -5,17 +5,17 @@ import { randomUUID } from 'crypto'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { GetSettingsUseCase } from '../getSettings-useCase'
 
-const user_id = randomUUID()
-const accessKey = 'api access key'
-const apiURL = 'api address URL'
-const secretKey = 'api secret key'
-const streamURL = 'stream api address URL'
-
-let settingsRepository: InMemorySettingsRepository
-let cryptographyAdapter: CryptographyAdapter
-let sut: GetSettingsUseCase
-
 describe('Get Settings Use Case', () => {
+  const user_id = randomUUID()
+  const accessKey = 'api access key'
+  const apiURL = 'api address URL'
+  const secretKey = 'api secret key'
+  const streamURL = 'stream api address URL'
+
+  let settingsRepository: InMemorySettingsRepository
+  let cryptographyAdapter: CryptographyAdapter
+  let sut: GetSettingsUseCase
+
   beforeEach(() => {
     settingsRepository = new InMemorySettingsRepository()
     cryptographyAdapter = new CryptographyAdapter()

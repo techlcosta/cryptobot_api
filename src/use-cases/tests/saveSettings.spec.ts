@@ -8,21 +8,20 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { InMemoryUsersRepository } from '../../repositories/mock/users-repository'
 import { SaveSettingsUseCase } from '../saveSettings-useCase'
 
-const name = 'Jhon Doe'
-const email = 'jhondoe@example.com'
-const password = '123456'
-
-const accessKey = 'api access key'
-const apiURL = 'api address URL'
-const secretKey = 'api secret key'
-const streamURL = 'stream api address URL'
-
-let usersRepository: InMemoryUsersRepository
-let cryptographyAdapter: CryptographyAdapter
-let settingsRepository: InMemorySettingsRepository
-let sut: SaveSettingsUseCase
-
 describe('Save Settings Use Case', () => {
+  const name = 'Jhon Doe'
+  const email = 'jhondoe@example.com'
+  const password = '123456'
+
+  const accessKey = 'api access key'
+  const apiURL = 'api address URL'
+  const secretKey = 'api secret key'
+  const streamURL = 'stream api address URL'
+  let usersRepository: InMemoryUsersRepository
+  let cryptographyAdapter: CryptographyAdapter
+  let settingsRepository: InMemorySettingsRepository
+  let sut: SaveSettingsUseCase
+
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
     settingsRepository = new InMemorySettingsRepository()

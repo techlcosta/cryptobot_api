@@ -4,14 +4,14 @@ import { hash } from 'bcryptjs'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { GetUserProfileUseCase } from '../getUserProfile-useCase'
 
-const name = 'Jhon Doe'
-const email = 'jhondoe@example.com'
-const password = '123456'
-
-let usersRepository: InMemoryUsersRepository
-let sut: GetUserProfileUseCase
-
 describe('Get User Profile Use Case', () => {
+  const name = 'Jhon Doe'
+  const email = 'jhondoe@example.com'
+  const password = '123456'
+
+  let usersRepository: InMemoryUsersRepository
+  let sut: GetUserProfileUseCase
+
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
     sut = new GetUserProfileUseCase(usersRepository)

@@ -4,14 +4,14 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { InMemoryUsersRepository } from '../../repositories/mock/users-repository'
 import { UserAuthenticateUseCase } from '../userAuthenticate-useCase'
 
-const name = 'Jhon Doe'
-const email = 'jhondoe@example.com'
-const password = '123456'
-
-let usersRepository: InMemoryUsersRepository
-let sut: UserAuthenticateUseCase
-
 describe('User Authenticate Use Case', () => {
+  const name = 'Jhon Doe'
+  const email = 'jhondoe@example.com'
+  const password = '123456'
+
+  let usersRepository: InMemoryUsersRepository
+  let sut: UserAuthenticateUseCase
+
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
     sut = new UserAuthenticateUseCase(usersRepository)

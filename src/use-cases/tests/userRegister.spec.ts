@@ -4,14 +4,14 @@ import { UserAlredyExistsError } from '../../errors/user-alredy-exists-error'
 import { InMemoryUsersRepository } from '../../repositories/mock/users-repository'
 import { UserRegisterUseCase } from '../userRegister-useCase'
 
-const name = 'Jhon Doe'
-const email = 'jhondoe@example.com'
-const password = '123456'
-
-let usersRepository: InMemoryUsersRepository
-let sut: UserRegisterUseCase
-
 describe('User Register Use Case', () => {
+  const name = 'Jhon Doe'
+  const email = 'jhondoe@example.com'
+  const password = '123456'
+
+  let usersRepository: InMemoryUsersRepository
+  let sut: UserRegisterUseCase
+
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
     sut = new UserRegisterUseCase(usersRepository)
