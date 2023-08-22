@@ -1,5 +1,5 @@
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
-import { CryptographyAdapter } from '@/helpers/cryptography/cryptography-adapter'
+import { Cryptography } from '@/helpers/cryptography/cryptography'
 import { InMemorySettingsRepository } from '@/repositories/mock/settings-repository'
 import { randomUUID } from 'crypto'
 import { beforeEach, describe, expect, it } from 'vitest'
@@ -7,26 +7,26 @@ import { GetSettingsUseCase } from '../getSettings-useCase'
 
 describe('Get Settings Use Case', () => {
   const user_id = randomUUID()
-  const accessKey = 'api access key'
+  const apiKey = 'api access key'
   const apiURL = 'api address URL'
   const secretKey = 'api secret key'
   const streamURL = 'stream api address URL'
 
   let settingsRepository: InMemorySettingsRepository
-  let cryptographyAdapter: CryptographyAdapter
+  let cryptography: Cryptography
   let sut: GetSettingsUseCase
 
   beforeEach(() => {
     settingsRepository = new InMemorySettingsRepository()
-    cryptographyAdapter = new CryptographyAdapter()
-    sut = new GetSettingsUseCase(settingsRepository, cryptographyAdapter)
+    cryptography = new Cryptography()
+    sut = new GetSettingsUseCase(settingsRepository, cryptography)
   })
 
   it('should be able to get settings and decrypt secret key', async () => {
-    const encrypted = cryptographyAdapter.encrypt(secretKey)
+    const encrypted = cryptography.encrypt(secretKey)
 
     const currentSettings = await settingsRepository.create({
-      accessKey,
+      apiKey,
       apiURL,
       secretKey: encrypted,
       streamURL,

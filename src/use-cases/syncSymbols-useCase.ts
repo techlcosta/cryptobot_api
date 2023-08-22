@@ -1,7 +1,8 @@
+import { type SymbolLotSizeFilter, type SymbolMinNotionalFilter } from '@/client/binance-api/interfaces/spotExchangeInfo-interface'
+import { type BinanceRestInterface } from '@/client/binance-api/rest/binanceRest-interface'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { type SettingsRepositoryInterface } from '@/repositories/interfaces/settings-repository'
 import { type SymbolsRepositoryInterface } from '@/repositories/interfaces/symbols-repository'
-import { type ExchangeInfoInterface, type SymbolLotSizeFilter, type SymbolMinNotionalFilter } from '@/services/binance-api/REST/SPOT/exchangeInfo/exchangeInfo-interface'
 import { type Symbols } from '@prisma/client'
 
 interface SyncSymbolsUseCaseRequest {
@@ -16,15 +17,15 @@ export class SyncSymbolsUseCase {
   constructor (
     private readonly settingsRepository: SettingsRepositoryInterface,
     private readonly symbolsRepository: SymbolsRepositoryInterface,
-    private readonly exchangeInfoFn: ExchangeInfoInterface
+    private readonly binanceSpotApi: BinanceRestInterface
   ) {}
 
   async execute ({ user_id }: SyncSymbolsUseCaseRequest): Promise<SyncSymbolsUseCaseResponse> {
     const settings = await this.settingsRepository.findByUserId(user_id)
 
-    if (settings === null) throw new ResourceNotFoundError()
+    if (!settings) throw new ResourceNotFoundError()
 
-    const exchangeInfo = await this.exchangeInfoFn({ baseURL: settings?.apiURL })
+    const exchangeInfo = await this.binanceSpotApi.exchangeInfo({ apiURL: settings.apiURL })
 
     for (const item of exchangeInfo.symbols) {
       let min_lot_size = '0'
@@ -38,7 +39,7 @@ export class SyncSymbolsUseCase {
 
       const symbol = await this.symbolsRepository.findByUserIdAndSymbol({ symbol: item.symbol, user_id })
 
-      if (symbol === null) {
+      if (!symbol) {
         await this.symbolsRepository.create({
           user_id,
           min_notional,

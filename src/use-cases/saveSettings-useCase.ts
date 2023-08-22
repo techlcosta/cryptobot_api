@@ -1,7 +1,8 @@
 
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { SettingsAlredyExistsError } from '@/errors/settings-alredy-exists-error'
-import { type CryptographyAdapterInterface } from '@/helpers/cryptography/cryptography-adapter-interface'
+import { type BinanceExchangeActionsInterface } from '@/helpers/binanceExchange/binanceExchangeActions-interface'
+import { type CryptographyInterface } from '@/helpers/cryptography/cryptography-interface'
 import { type SettingsRepositoryInterface } from '@/repositories/interfaces/settings-repository'
 import { type UsersRepositoryInterface } from '@/repositories/interfaces/users-repository'
 import { type Settings } from '@prisma/client'
@@ -9,7 +10,7 @@ import { type Settings } from '@prisma/client'
 interface SaveSettingsUseCaseRequest {
   apiURL: string
   streamURL: string
-  accessKey: string
+  apiKey: string
   secretKey: string
   user_id: string
 }
@@ -22,26 +23,34 @@ export class SaveSettingsUseCase {
   constructor (
     private readonly usersRepository: UsersRepositoryInterface,
     private readonly settingsRepository: SettingsRepositoryInterface,
-    private readonly cryptographyAdapter: CryptographyAdapterInterface
+    private readonly cryptography: CryptographyInterface,
+    private readonly binanceExchangeActions: BinanceExchangeActionsInterface
   ) {}
 
-  async execute ({ apiURL, streamURL, accessKey, secretKey, user_id }: SaveSettingsUseCaseRequest): Promise<SaveSettingsUseCaseResponse> {
-    const secretKeyEncrypted = this.cryptographyAdapter.encrypt(secretKey)
+  async execute ({ apiURL, streamURL, apiKey, secretKey, user_id }: SaveSettingsUseCaseRequest): Promise<SaveSettingsUseCaseResponse> {
+    const secretKeyEncrypted = this.cryptography.encrypt(secretKey)
 
     const user = await this.usersRepository.findById(user_id)
 
-    if (user === null) throw new ResourceNotFoundError()
+    if (!user) throw new ResourceNotFoundError()
 
-    const hasSttings = await this.settingsRepository.findByUserId(user_id)
+    const settingsAlredyExist = await this.settingsRepository.findByUserId(user_id)
 
-    if (hasSttings !== null) throw new SettingsAlredyExistsError()
+    if (settingsAlredyExist) throw new SettingsAlredyExistsError()
 
     const settings = await this.settingsRepository.create({
       apiURL,
       streamURL,
-      accessKey,
+      apiKey,
       secretKey: secretKeyEncrypted,
       user_id
+    })
+
+    await this.binanceExchangeActions.startSpotUserData({
+      apiURL,
+      streamURL,
+      user_id,
+      apiKey
     })
 
     return { settings }

@@ -1,7 +1,7 @@
 
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { SettingsAlredyExistsError } from '@/errors/settings-alredy-exists-error'
-import { CryptographyAdapter } from '@/helpers/cryptography/cryptography-adapter'
+import { Cryptography } from '@/helpers/cryptography/cryptography'
 import { InMemorySettingsRepository } from '@/repositories/mock/settings-repository'
 import { hash } from 'bcryptjs'
 import { beforeEach, describe, expect, it } from 'vitest'
@@ -13,20 +13,20 @@ describe('Save Settings Use Case', () => {
   const email = 'jhondoe@example.com'
   const password = '123456'
 
-  const accessKey = 'api access key'
+  const apiKey = 'api access key'
   const apiURL = 'api address URL'
   const secretKey = 'api secret key'
   const streamURL = 'stream api address URL'
   let usersRepository: InMemoryUsersRepository
-  let cryptographyAdapter: CryptographyAdapter
+  let cryptography: Cryptography
   let settingsRepository: InMemorySettingsRepository
   let sut: SaveSettingsUseCase
 
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
     settingsRepository = new InMemorySettingsRepository()
-    cryptographyAdapter = new CryptographyAdapter()
-    sut = new SaveSettingsUseCase(usersRepository, settingsRepository, cryptographyAdapter)
+    cryptography = new Cryptography()
+    sut = new SaveSettingsUseCase(usersRepository, settingsRepository, cryptography)
   })
 
   it('should be able to save settings and encrypt secret key', async () => {
@@ -37,7 +37,7 @@ describe('Save Settings Use Case', () => {
     })
 
     const { settings } = await sut.execute({
-      accessKey,
+      apiKey,
       apiURL,
       secretKey,
       streamURL,
@@ -54,7 +54,7 @@ describe('Save Settings Use Case', () => {
   it('should not be able to save settings with wrong user id', async () => {
     await expect(async () => {
       await sut.execute({
-        accessKey,
+        apiKey,
         apiURL,
         secretKey,
         streamURL,
@@ -71,7 +71,7 @@ describe('Save Settings Use Case', () => {
     })
 
     const { settings } = await sut.execute({
-      accessKey,
+      apiKey,
       apiURL,
       secretKey,
       streamURL,
@@ -79,7 +79,7 @@ describe('Save Settings Use Case', () => {
     })
 
     await expect(async () => await sut.execute({
-      accessKey,
+      apiKey,
       apiURL,
       secretKey,
       streamURL,

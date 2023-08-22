@@ -1,11 +1,11 @@
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
-import { makeGetSettingsUseCase } from '@/use-cases/factories/make-getSettings-useCase '
+import { getSettingsUseCaseFactory } from '@/use-cases/factories/factory-getSettings-useCase '
 
 import { type FastifyReply, type FastifyRequest } from 'fastify'
 
 export async function getSettingsController (request: FastifyRequest, reply: FastifyReply): Promise<FastifyReply> {
   try {
-    const getSettingsUseCase = makeGetSettingsUseCase()
+    const getSettingsUseCase = getSettingsUseCaseFactory()
 
     const user_id = request.user.sub
 

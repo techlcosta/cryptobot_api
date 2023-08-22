@@ -1,5 +1,6 @@
 import fastifyCookie from '@fastify/cookie'
 import fastifyJwt from '@fastify/jwt'
+import websocket from '@fastify/websocket'
 import fastify from 'fastify'
 import { ZodError } from 'zod'
 import { env } from './env'
@@ -17,6 +18,8 @@ void app.register(fastifyJwt, {
     expiresIn: '1d'
   }
 })
+
+void app.register(websocket)
 
 void app.register(fastifyCookie)
 

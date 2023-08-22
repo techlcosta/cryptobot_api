@@ -1,8 +1,8 @@
+import { BinanceRest } from '@/client/binance-api/rest/binanceRest'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { InMemorySettingsRepository } from '@/repositories/mock/settings-repository'
 import { InMemorySymbolsRepository } from '@/repositories/mock/symbols-repository'
 import { InMemoryUsersRepository } from '@/repositories/mock/users-repository'
-import { exchangeInfo } from '@/services/binance-api/REST/SPOT/exchangeInfo/exchangeInfo'
 import { hash } from 'bcryptjs'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { SyncSymbolsUseCase } from '../syncSymbols-useCase'
@@ -12,7 +12,7 @@ describe('Sync Symbols Use Case', () => {
   const email = 'jhondoe@example.com'
   const password = '123456'
 
-  const accessKey = 'api access key'
+  const apiKey = 'api access key'
   const apiURL = 'https://testnet.binance.vision/api/'
   const secretKey = 'api secret key'
   const streamURL = 'stream api address URL'
@@ -20,13 +20,15 @@ describe('Sync Symbols Use Case', () => {
   let usersRepository: InMemoryUsersRepository
   let settingsRepository: InMemorySettingsRepository
   let symbolsRepository: InMemorySymbolsRepository
+  let binanceSpot: BinanceRest
   let sut: SyncSymbolsUseCase
 
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
     settingsRepository = new InMemorySettingsRepository()
     symbolsRepository = new InMemorySymbolsRepository()
-    sut = new SyncSymbolsUseCase(settingsRepository, symbolsRepository, exchangeInfo)
+    binanceSpot = new BinanceRest()
+    sut = new SyncSymbolsUseCase(settingsRepository, symbolsRepository, binanceSpot)
   })
 
   it('should be able to sync symbols', async () => {
@@ -37,7 +39,7 @@ describe('Sync Symbols Use Case', () => {
     })
 
     const { user_id } = await settingsRepository.create({
-      accessKey,
+      apiKey,
       apiURL,
       secretKey,
       streamURL,

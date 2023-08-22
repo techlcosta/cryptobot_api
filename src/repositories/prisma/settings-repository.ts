@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { type SettingsRepositoryInterface } from '@/repositories/interfaces/settings-repository'
+import { type PrismaSettingsUpdateInput, type SettingsRepositoryInterface } from '@/repositories/interfaces/settings-repository'
 import { type Prisma, type Settings } from '@prisma/client'
 
 export class PrismaSettingsRepository implements SettingsRepositoryInterface {
@@ -9,9 +9,9 @@ export class PrismaSettingsRepository implements SettingsRepositoryInterface {
     return settings
   }
 
-  async update ({ user_id, accessKey, apiURL, secretKey, streamURL }: Prisma.SettingsUncheckedUpdateInput): Promise<Settings> {
+  async update ({ user_id, accessKey, apiURL, secretKey, streamURL }: PrismaSettingsUpdateInput): Promise<Settings> {
     const settings = await prisma.settings.update({
-      where: { user_id: user_id as string },
+      where: { user_id },
       data: {
         accessKey,
         secretKey,

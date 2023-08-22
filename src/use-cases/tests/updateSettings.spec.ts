@@ -1,6 +1,6 @@
 
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
-import { CryptographyAdapter } from '@/helpers/cryptography/cryptography-adapter'
+import { Cryptography } from '@/helpers/cryptography/cryptography'
 import { InMemorySettingsRepository } from '@/repositories/mock/settings-repository'
 import { randomUUID } from 'node:crypto'
 import { beforeEach, describe, expect, it } from 'vitest'
@@ -8,26 +8,26 @@ import { UpdateSettingsUseCase } from '../updateSettings-useCase'
 
 describe('Updatye Settings Use Case', () => {
   const user_id = randomUUID()
-  const accessKey = 'api access key'
+  const apiKey = 'api access key'
   const apiURL = 'api address URL'
   const secretKey = 'api secret key'
   const streamURL = 'stream api address URL'
 
   let settingsRepository: InMemorySettingsRepository
-  let cryptographyAdapter: CryptographyAdapter
+  let cryptography: Cryptography
   let sut: UpdateSettingsUseCase
 
   beforeEach(() => {
     settingsRepository = new InMemorySettingsRepository()
-    cryptographyAdapter = new CryptographyAdapter()
-    sut = new UpdateSettingsUseCase(settingsRepository, cryptographyAdapter)
+    cryptography = new Cryptography()
+    sut = new UpdateSettingsUseCase(settingsRepository, cryptography)
   })
 
   it('should be able to update settings', async () => {
-    const encrypted = cryptographyAdapter.encrypt(secretKey)
+    const encrypted = cryptography.encrypt(secretKey)
 
     const currentSettings = await settingsRepository.create({
-      accessKey,
+      apiKey,
       apiURL,
       secretKey: encrypted,
       streamURL,
@@ -38,7 +38,7 @@ describe('Updatye Settings Use Case', () => {
 
     const { settings } = await sut.execute({
       user_id: currentSettings.user_id,
-      accessKey: `new ${accessKey}`,
+      apiKey: `new ${apiKey}`,
       secretKey: `new ${secretKey}`,
       apiURL: `new ${apiURL}`,
       streamURL: `new ${streamURL}`
@@ -47,7 +47,7 @@ describe('Updatye Settings Use Case', () => {
     console.log(settings)
 
     expect(settings.id).toEqual(expect.any(String))
-    expect(settings.accessKey).not.toEqual(accessKey)
+    expect(settings.apiKey).not.toEqual(apiKey)
     expect(settings.secretKey).not.toEqual(secretKey)
     expect(settings.apiURL).not.toEqual(apiURL)
     expect(settings.streamURL).not.toEqual(streamURL)
@@ -56,7 +56,7 @@ describe('Updatye Settings Use Case', () => {
   it('should not be able to update settings with wrong user id', async () => {
     await expect(async () => {
       await sut.execute({
-        accessKey,
+        apiKey,
         apiURL,
         secretKey,
         streamURL,

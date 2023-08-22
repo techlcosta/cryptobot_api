@@ -1,9 +1,10 @@
-import { type Prisma, type Settings, type User } from '@prisma/client'
+import { type Prisma, type Settings, type Users } from '@prisma/client'
 
-export type UserWithSettings = User & { settings: Settings | null }
+export type UserWithSettings = Users & { settings: Settings | null }
 
 export interface UsersRepositoryInterface {
-  create: (data: Prisma.UserCreateInput) => Promise<User>
-  findByEmail: (email: string) => Promise<User | null>
-  findById: (userId: string) => Promise<User | null>
+  create: (data: Prisma.UsersCreateInput) => Promise<Users>
+  findByEmail: (email: string) => Promise<Users | null>
+  findById: (userId: string) => Promise<Users | null>
+  allUsers: () => Promise<Users[]>
 }

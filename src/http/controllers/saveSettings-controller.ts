@@ -1,30 +1,28 @@
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { SettingsAlredyExistsError } from '@/errors/settings-alredy-exists-error'
-import { makeSaveSettingsUseCase } from '@/use-cases/factories/make-saveSettings-useCase'
+import { saveSettingsUseCaseFactory } from '@/use-cases/factories/factory-saveSettings-useCase'
 import { type FastifyReply, type FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
 export async function saveSettingsController (request: FastifyRequest, reply: FastifyReply): Promise<FastifyReply> {
   const saveSettingsBodySchema = z.object({
-    accessKey: z.string().min(10),
-    apiURL: z.string().min(10),
-    secretKey: z.string().min(10),
-    streamURL: z.string().min(10)
+    apiKey: z.string().min(10).nonempty(),
+    apiURL: z.string().min(10).nonempty(),
+    secretKey: z.string().min(10).nonempty(),
+    streamURL: z.string().min(10).nonempty()
 
   })
 
-  const { accessKey, apiURL, secretKey, streamURL } = saveSettingsBodySchema.parse(request.body)
+  const { apiKey, apiURL, secretKey, streamURL } = saveSettingsBodySchema.parse(request.body)
 
   const user_id = request.user.sub
 
-  console.log(user_id)
-
   try {
-    const saveSettingsUseCase = makeSaveSettingsUseCase()
+    const saveSettingsUseCase = saveSettingsUseCaseFactory()
 
     await saveSettingsUseCase.execute({
       user_id,
-      accessKey,
+      apiKey,
       apiURL,
       secretKey,
       streamURL

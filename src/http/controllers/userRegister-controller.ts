@@ -1,4 +1,4 @@
-import { makeUserRegisterUseCase } from '@/use-cases/factories/make-userRegister-useCase'
+import { userRegisterUseCaseFactory } from '@/use-cases/factories/factory-userRegister-useCase'
 import { type FastifyReply, type FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { UserAlredyExistsError } from '../../errors/user-alredy-exists-error'
@@ -13,7 +13,7 @@ export async function userRegisterController (request: FastifyRequest, reply: Fa
   const { name, email, password } = userRegisterBodySchema.parse(request.body)
 
   try {
-    const userRegisterUseCase = makeUserRegisterUseCase()
+    const userRegisterUseCase = userRegisterUseCaseFactory()
 
     await userRegisterUseCase.execute({
       name,
